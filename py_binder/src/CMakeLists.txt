@@ -14,5 +14,3 @@ target_include_directories(my_server PUBLIC
     "${PROJECT_SOURCE_DIR}/include"
     )
 
-install(TARGETS my_client my_server DESTINATION lib)
-#install(FILES MathFunctions.h DESTINATION "${PROJECT_SOURCE_DIR}/include")

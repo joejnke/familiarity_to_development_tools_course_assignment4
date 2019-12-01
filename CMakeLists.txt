@@ -27,11 +27,3 @@ target_include_directories(clieServModule PUBLIC
     ${PROJECT_SOURCE_DIR}/include
     )
 
-target_link_libraries(clieServModule 
-    my_client
-    my_server
-    ${PYTHON_LIBRARIES}
-    )
-
-#install(TARGETS my_client my_server DESTINATION "${PROJECT_SOURCE_DIR}/lib")
-#install(FILES MathFunctions.h DESTINATION "${PROJECT_SOURCE_DIR}/include")
