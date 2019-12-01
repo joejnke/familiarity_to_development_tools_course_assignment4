@@ -15,7 +15,7 @@ set_target_properties(
     PROPERTIES
         PREFIX ""
         OUTPUT_NAME "clieServModule"
-        #LINKER_LANGUAGE C
+        LINKER_LANGUAGE C
 )
 
 find_package(PythonInterp REQUIRED)
