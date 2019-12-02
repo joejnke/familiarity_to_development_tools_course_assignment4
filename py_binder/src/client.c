@@ -8,9 +8,19 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
-#include "clieserv_helper.h"
 // #define port_num 8888
 #define host "localhost"
+
+void client_report(const char* msg, int terminate) {
+  perror(msg);
+  if (terminate) exit(-1); /* failure */
+}
+
+void client_close_connection(int fd) {
+    puts("server closing connection ...");
+    close(fd);
+    puts("server connection closed...");
+}
 
 int init_client(int port_number) {
     char server_msg[100];
@@ -19,14 +29,14 @@ int init_client(int port_number) {
     puts("initializing client fd ...");    
     int client_fd = socket(AF_INET, SOCK_STREAM, 0);
     // report and exit if failed to initialize file descriptor
-    if (client_fd < 0) report("clinet fd", 1);
+    if (client_fd < 0) client_report("clinet fd", 1);
 
     // get the address of the host
     puts("obtaining host address ...");
     struct hostent* hptr = gethostbyname(host); /* localhost: 127.0.0.1 */ 
-    if (!hptr) report("gethostbyname", 1); /* is hptr NULL? */
+    if (!hptr) client_report("gethostbyname", 1); /* is hptr NULL? */
     if (hptr->h_addrtype != AF_INET)       /* versus AF_LOCAL */
-        report("bad address family", 1);
+        client_report("bad address family", 1);
 
     // configure server address
     puts("configuring server address ...");
@@ -40,7 +50,7 @@ int init_client(int port_number) {
     // report and exit if failed to connect
     puts("connecting to server ...");
     if (connect(client_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0)
-        report("connect", 1);
+        client_report("connect", 1);
         
     fprintf(stderr, "successfully connected on port %i ...\n", port_number);
     read(client_fd, &server_msg_size, sizeof(int)); // get size
@@ -76,7 +86,7 @@ void request_server(int client_fd) {
     //     scanf("%s", file_name); // accept filename from user
     // }    
 
-    close_connection(client_fd);
+    client_close_connection(client_fd);
 }
 
 // int main() {

@@ -6,16 +6,26 @@
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
-#include "clieserv_helper.h"
 
 #define port_num 8888
+
+void server_report(const char* msg, int terminate) {
+  perror(msg);
+  if (terminate) exit(-1); /* failure */
+}
+
+void server_close_connection(int fd) {
+    puts("server closing connection ...");
+    close(fd);
+    puts("server connection closed...");
+}
 
 int init_server(int port_number) {
     // initialize a file descriptor for the server 
     puts("initializing server fd ...");
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     // report and exit if failed to initialize file descriptor
-    if (server_fd < 0) report("socket", 1);
+    if (server_fd < 0) server_report("socket", 1);
 
     // initialize address for the server
     puts("initializing server address ...");
@@ -29,7 +39,7 @@ int init_server(int port_number) {
     // report and exit if bind fails
     puts("binding server fd with server address ...");
     if (bind(server_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0 )
-        report("bind", 1);
+        server_report("bind", 1);
     
     return server_fd;
 }
@@ -45,7 +55,7 @@ void start_server(int server_fd) {
     // listen for maximum of 10 connections from client sockets
     // report and exit if listen fails
     if (listen(server_fd, 10) < 0 )
-        report("listen", 1);
+        server_report("listen", 1);
     
     fprintf(stderr, "Listening on port %i for clients...\n", port_num);
 
@@ -59,7 +69,7 @@ void start_server(int server_fd) {
         // report and continue to accept next connection if failed to connect with current client
         int client_fd = accept(server_fd, (struct sockaddr*) &client_addr, &len);
         if (client_fd < 0) {
-            report("accept", 0); 
+            server_report("accept", 0); 
             continue;
         }
 
@@ -86,8 +96,8 @@ void start_server(int server_fd) {
             // change working directory
             if (chdir(files_dir) < 0){
                 puts("unable to change dir");
-                report("change directory", 0);
-                close_connection(client_fd);
+                server_report("change directory", 0);
+                server_close_connection(client_fd);
             }
 
             // check if such file exists and send the file
@@ -99,7 +109,7 @@ void start_server(int server_fd) {
                 msg_size = sizeof(file_not_found);
                 write(client_fd, &msg_size, sizeof(int)); // send message size
                 write(client_fd, file_not_found, sizeof(file_not_found));
-                close_connection(client_fd);
+                server_close_connection(client_fd);
             }
 
             // if file is found
@@ -116,7 +126,7 @@ void start_server(int server_fd) {
                 write(client_fd, file_content, sizeof(file_content));
                 puts("file sent ...");
                 // close connection
-                close_connection(client_fd);
+                server_close_connection(client_fd);
             }
         }
 
@@ -126,7 +136,7 @@ void start_server(int server_fd) {
             msg_size = sizeof(no_file_name_err);
             write(client_fd, &msg_size, sizeof(int)); // send message size
             write(client_fd, no_file_name_err, sizeof(no_file_name_err)); // send message
-            close_connection(client_fd); // close connection
+            server_close_connection(client_fd); // close connection
         }
     } 
 }

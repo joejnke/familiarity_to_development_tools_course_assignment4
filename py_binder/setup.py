@@ -1,11 +1,16 @@
-from setuptools import setup, find_packages
-setup(name='pathology',
-      version='0.1',
-      url='https://github.com/joejnke/',
-      license='MIT',
-      author='Kirubel Kassaye',
-      author_email='joejnke@gmail.com',
-      description='python c extension for socket based server client library',
-      packages=find_packa(),
-      long_description=open('README.md').read(),
-      zip_safe=False)
+from distutils.core import setup, Extension
+
+py_binder = Extension('clieServModule',
+                    define_macros = [('MAJOR_VERSION', '1'),
+                                     ('MINOR_VERSION', '0')],
+                    include_dirs = ['src/include'],
+                    libraries = ['client', 'server'],
+                    library_dirs = ['src/build'],
+                    sources = ['src/py_binder.c'])
+
+setup (name='clieServModule',
+       version='1.0',
+       author='Kirubel Kassaye',
+       author_email='joejnke@gmail.com',
+       description='python c extension for socket based server client library',
+       ext_modules = [py_binder])
