@@ -1,1 +1,0 @@
-/usr/bin/cc  -fPIC   -shared -Wl,-soname,libserver.so -o libserver.so CMakeFiles/server.dir/src/server.c.o 
