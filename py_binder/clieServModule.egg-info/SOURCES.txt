@@ -1,6 +1,6 @@
+py_binder.c
 setup.py
 clieServModule.egg-info/PKG-INFO
 clieServModule.egg-info/SOURCES.txt
 clieServModule.egg-info/dependency_links.txt
 clieServModule.egg-info/top_level.txt
-src/py_binder.c

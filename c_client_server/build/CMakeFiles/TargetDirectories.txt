@@ -1,0 +1,8 @@
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/install.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/list_install_components.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/rebuild_cache.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/edit_cache.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/client.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/server.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/install/strip.dir
+/home/kirub/familiarity_to_development_tools_course_assignment4/c_client_server/build/CMakeFiles/install/local.dir
