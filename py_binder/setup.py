@@ -1,5 +1,5 @@
-from distutils.core import setup, Extension
-
+#from distutils.core import setup, Extension
+from setuptools import setup, find_packages, Extension
 py_binder = Extension('clieServModule',
                     define_macros = [('MAJOR_VERSION', '1'),
                                      ('MINOR_VERSION', '0')],
